@@ -1,4 +1,5 @@
 # AI for LifeSciences Hackathon 2023
+[Notion Site](https://wax-butterfly-46f.notion.site/AI4LS-1-Info-for-Participants-b8dd7d8e2c9e4d94a111086043d1bc9d)
 ## November 15 - December 20
 
 ### Tools & Applications
