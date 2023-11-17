@@ -8,10 +8,10 @@
 
 [ARCGIS Maps SDK for .NET](https://developers.arcgis.com/net/) could be useful, if WPF or Blazor applicaitons are built, for visualization needs.
 
-#### Data Analysis
-For python notebooks, it is recommende to use a single virtual environment and analysis spread across multiple notebooks.
-Some .net or other applications can be used for additional data integration and cleanup. **But update the gitignore file accordingly**
+#### Data Analysis & User Interfaces
+For python 3 notebooks, a single virtual environment is used and analysis spread across multiple notebooks. Using Jupyter extension in VSCode.
 
+(.NET 8.0)[https://dotnet.microsoft.com/en-us/download/dotnet/8.0] used for data cleanup, api integrations and some application development. Requires installation of SDK for development.
 
 
 
