@@ -14,11 +14,20 @@
     <PackageReference Include="Esri.ArcGISRuntime.WPF" Version="200.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />    
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AIforLS.LUCAS\AIforLS.LUCAS.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LUCAS-SOIL-2018.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LUCAS-SOIL-all-2018.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

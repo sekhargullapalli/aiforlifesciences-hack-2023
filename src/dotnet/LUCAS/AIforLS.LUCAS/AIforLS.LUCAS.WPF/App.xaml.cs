@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace AIforLS.LUCAS.WPF
@@ -16,7 +14,7 @@ namespace AIforLS.LUCAS.WPF
             base.OnStartup(e);
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
-                .AddUserSecrets<App>().Build();                
+                .AddUserSecrets<App>().Build();           
 
             //Users need to set the ArcGISRuntimeApiKey in the user secrets manager or as environment variable
             Esri.ArcGISRuntime.ArcGISRuntimeEnvironment.ApiKey = configuration["ArcGISRuntimeApiKey"]??"";
