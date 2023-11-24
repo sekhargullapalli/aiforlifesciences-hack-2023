@@ -1,18 +1,10 @@
-﻿using CoordinateSharp;
-
-using Esri.ArcGISRuntime.Geometry;
+﻿using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.Symbology;
 using Esri.ArcGISRuntime.UI;
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIforLS.LUCAS.WPF.ViewModels;
 
@@ -58,34 +50,14 @@ public class BaseMapViewModel : INotifyPropertyChanged
     private void CreateGraphics()
     {
         // Create a new graphics overlay to contain a variety of graphics.
-        var malibuGraphicsOverlay = new GraphicsOverlay();
+        var lucasGraphicsOverlay = new GraphicsOverlay();
         // Add the overlay to a graphics overlay collection.
         GraphicsOverlayCollection overlays = new GraphicsOverlayCollection
             {
-                malibuGraphicsOverlay
+                lucasGraphicsOverlay
             };
         // Set the view model's "GraphicsOverlays" property (will be consumed by the map view).
-        this.GraphicsOverlays = overlays;
-
-        //// Create a point geometry.
-        //var dumeBeachPoint = new MapPoint(-118.8066, 34.0006, SpatialReferences.Wgs84);
-        //// Create a symbol to define how the point is displayed.
-        //var pointSymbol = new SimpleMarkerSymbol
-        //{
-        //    Style = SimpleMarkerSymbolStyle.Circle,
-        //    Color = System.Drawing.Color.Orange,
-        //    Size = 10.0
-        //};
-        //// Add an outline to the symbol.
-        //pointSymbol.Outline = new SimpleLineSymbol
-        //{
-        //    Style = SimpleLineSymbolStyle.Solid,
-        //    Color = System.Drawing.Color.Blue,
-        //    Width = 2.0
-        //};
-        //var pointGraphic = new Graphic(dumeBeachPoint, pointSymbol);
-        //// Add the point graphic to graphics overlay.
-        //malibuGraphicsOverlay.Graphics.Add(pointGraphic);
+        this.GraphicsOverlays = overlays;      
 
         var pointSymbol = new SimpleMarkerSymbol
         {
@@ -102,18 +74,11 @@ public class BaseMapViewModel : INotifyPropertyChanged
 
         var LUCAS2018Data = LUCASUtilities.GetLUCAS2018Data();
         foreach(var pt in LUCAS2018Data!)
-        {
-            Coordinate coordinate = new Coordinate(pt!.TH_LAT!.Value, pt!.TH_LONG!.Value);
-            coordinate.Set_Datum(Earth_Ellipsoid_Spec.WGS84_1984);
-
-            //var dumeBeachPoint = new MapPoint(pt!.TH_LAT!.Value, pt!.TH_LONG!.Value, SpatialReferences.WebMercator);
-            var mpt = new MapPoint(coordinate.Latitude.ToDouble(), coordinate.Longitude.ToDouble(), SpatialReferences.Wgs84);
-            
+        {           
+            var mpt = new MapPoint(pt.TH_LONG!.Value,pt.TH_LAT!.Value, SpatialReferences.Wgs84);            
             var pointGraphic = new Graphic(mpt, pointSymbol);
-            malibuGraphicsOverlay.Graphics.Add(pointGraphic);
-
+            lucasGraphicsOverlay.Graphics.Add(pointGraphic);
         }
-
     }
 }
 
