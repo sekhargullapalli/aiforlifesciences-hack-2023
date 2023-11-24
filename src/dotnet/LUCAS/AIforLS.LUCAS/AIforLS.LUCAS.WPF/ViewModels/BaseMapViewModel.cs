@@ -107,9 +107,9 @@ public class BaseMapViewModel : INotifyPropertyChanged
             coordinate.Set_Datum(Earth_Ellipsoid_Spec.WGS84_1984);
 
             //var dumeBeachPoint = new MapPoint(pt!.TH_LAT!.Value, pt!.TH_LONG!.Value, SpatialReferences.WebMercator);
-            var dumeBeachPoint = new MapPoint(coordinate.Latitude.ToDouble(), coordinate.Longitude.ToDouble(), SpatialReferences.Wgs84);
+            var mpt = new MapPoint(coordinate.Latitude.ToDouble(), coordinate.Longitude.ToDouble(), SpatialReferences.Wgs84);
             
-            var pointGraphic = new Graphic(dumeBeachPoint, pointSymbol);
+            var pointGraphic = new Graphic(mpt, pointSymbol);
             malibuGraphicsOverlay.Graphics.Add(pointGraphic);
 
         }
