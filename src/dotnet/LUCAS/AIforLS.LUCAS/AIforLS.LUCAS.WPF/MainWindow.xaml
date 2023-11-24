@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AIforLS.LUCAS.WPF"
         xmlns:localviews="clr-namespace:AIforLS.LUCAS.WPF.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="LUCAS Dataset Viewer" Height="450" Width="800">
     <Grid>
         <localviews:BaseMapView>
             

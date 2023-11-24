@@ -11,7 +11,9 @@
 #### Data Analysis & User Interfaces
 For python 3 notebooks, a single virtual environment is used and analysis spread across multiple notebooks. Using Jupyter extension in VSCode.
 
-(.NET 8.0)[https://dotnet.microsoft.com/en-us/download/dotnet/8.0] used for data cleanup, api integrations and some application development. Requires installation of SDK for development.
+(.NET 8.0)[https://dotnet.microsoft.com/en-us/download/dotnet/8.0] used for data cleanup, api integrations and some application development. Requires installation of SDK for development. Currently a WPF application is also developed for visualization purpose.
+
+<img src="./images/WPFAppScreenShot.png" alt="drawing" width="300"/>
 
 
 
