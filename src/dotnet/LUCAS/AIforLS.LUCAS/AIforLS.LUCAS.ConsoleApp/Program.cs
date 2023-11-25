@@ -1,6 +1,7 @@
 ﻿using AIforLS.LUCAS;
 
 using Azure.Identity;
+
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,11 +14,59 @@ using VSG.OWMClient.Models;
 
 var lucasPoints = LUCASUtilities.GetLUCAS2018Data();
 var lucaspointsSwedish = lucasPoints!.Where(p => p.NUTS_0 == "SE");
-Console.WriteLine(lucasPoints!.Count());
+Console.WriteLine($"Total points {lucasPoints!.Count()}");
+Console.WriteLine($"Swedish points {lucaspointsSwedish.Count()}");
 
 
+ExtendDatasetWithWeatherData(lucaspointsSwedish, "Extended", "Lucas2018PointsWithWeatherDataSweden");
+//Extend a dataset with weather data
+static void ExtendDatasetWithWeatherData(IEnumerable<LUCAS2018Point> lucasPoints,string dirname, string filename)
+{   
+    List<Lucas2018PointWithWeatherData> lucasPointsWithWeatherData 
+        = new List<Lucas2018PointWithWeatherData>();
+    var weathertxt = File.ReadAllText("MergedWeatherDataSweden.json");
+    var weatherdata = JsonSerializer.Deserialize<Dictionary<string, DailyAggregation>>(weathertxt);
+    
+    foreach(var pt in lucasPoints)
+    {
+        Lucas2018PointWithWeatherData pt2 = new Lucas2018PointWithWeatherData();
+        foreach(var prop in typeof(LUCAS2018Point).GetProperties())
+        {
+            foreach(var prop2 in typeof(Lucas2018PointWithWeatherData).GetProperties())
+            {
+                if(prop.Name == prop2.Name)
+                {
+                    prop2.SetValue(pt2, prop.GetValue(pt));
+                }
+            }
+        }
+        DailyAggregation da = weatherdata![pt.POINTID.ToString()];
+        if (da is not null)
+        {
+            pt2.D0_CloudCover_Afternoon = da.CloudCover!.Afternoon;
+            pt2.D0_Humidity_Afternoon = da.Humidity!.Afternoon;
+            pt2.D0_Pressure_Afternoon = da.Pressure!.Afternoon;
+            pt2.D0_Percipitation_Total = da.Precipitation!.Total;
+            pt2.D0_Temperature_Min = da.Temperature!.Min;
+            pt2.D0_Temperature_Max = da.Temperature.Max;
+            pt2.D0_Temperature_Afternoon = da.Temperature.Afternoon;
+            pt2.D0_Temperature_Night = da.Temperature.Night;
+            pt2.D0_Temperature_Evening = da.Temperature.Evening;
+            pt2.D0_Temperature_Morning = da.Temperature.Morning;
+            pt2.D0_MaxWind_Speed = da.Wind!.MaxWind!.speed;
+            pt2.D0_MaxWind_Direction = da.Wind.MaxWind.direction; 
+        }
 
-MergeJsonFiles("Day0Weather","MergedWeatherDataSweden");
+        lucasPointsWithWeatherData.Add(pt2);
+    }
+    Directory.CreateDirectory(dirname);    
+    var json = JsonSerializer.Serialize(lucasPointsWithWeatherData, new JsonSerializerOptions { WriteIndented = true });
+    File.WriteAllText(Path.Join(dirname, $"{filename}.json"), json);
+    
+}
+
+
+//MergeJsonFiles("Day0Weather","MergedWeatherDataSweden");
 
 //Get all json files in the directory and merge them to one json file and save to disk
 static void MergeJsonFiles(string dirpath, string filename)
@@ -34,8 +83,7 @@ static void MergeJsonFiles(string dirpath, string filename)
     
 }
 
-
-
+//await GetWeatherDataforLucasPoints(lucaspointsSwedish, 0);
 //Gets weather data for all LUCAS points with a day offset to the survey date
 static async Task GetWeatherDataforLucasPoints(IEnumerable<LUCAS2018Point> lucaspoints, int dayOffset=0)
 {
@@ -101,5 +149,3 @@ static async Task GetWeatherDataforLucasPoints(IEnumerable<LUCAS2018Point> lucas
         Console.WriteLine(pt);
     }
 }
-
-
