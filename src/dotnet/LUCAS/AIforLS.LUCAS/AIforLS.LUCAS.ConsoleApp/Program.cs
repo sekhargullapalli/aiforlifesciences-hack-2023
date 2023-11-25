@@ -1,4 +1,5 @@
 ﻿using AIforLS.LUCAS;
+using AIforLS.LUCAS.ConsoleApp;
 
 using Azure.Identity;
 
@@ -6,8 +7,11 @@ using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using System;
+using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Xml.Serialization;
 
 using VSG.OWMClient;
 using VSG.OWMClient.Models;
@@ -18,7 +22,66 @@ Console.WriteLine($"Total points {lucasPoints!.Count()}");
 Console.WriteLine($"Swedish points {lucaspointsSwedish.Count()}");
 
 
-ExtendDatasetWithWeatherData(lucaspointsSwedish, "Extended", "Lucas2018PointsWithWeatherDataSweden");
+string burl = @"https://ai-for-life-sciences-1.s3.amazonaws.com/";
+string source = "Eukaryote";
+GetAllFilesFromS3(burl, source);
+static async Task GetAllFilesFromS3(string url, string source)
+{
+    string[] allfiles = File.ReadAllLines($"{source}.txt");
+    var files = allfiles.Where(f => f.Trim()!=string.Empty);
+    Directory.CreateDirectory(source);
+    using (var client = new HttpClient())
+    {       
+        int totalCount = files.Count();
+        int count = 0;
+        foreach (var item in files)
+        {           
+            var key = item.Replace('/', '-');
+            var savefilename = Path.Combine(source, key);
+            if (File.Exists(savefilename))
+            {
+                Console.WriteLine($"File Exists. {++count} of {totalCount}: {item}");
+                continue;
+            }
+            Console.WriteLine($"Downloading {++count} of {totalCount}: {item}");
+            var endpointURL = new Uri($"{url}{item}");
+            await client.DownloadFileTaskAsync(endpointURL, savefilename);
+        }
+    }
+}
+
+
+//Usage: Reading Eukaryote data from S3 bucket. Do not use since, the list terminates at 1000 files
+
+//await ReadFromXmlFile(burl, "s3bucket1.xml", "Eukaryote");
+//Read from xml files from amazon bucket 
+static async Task ReadFromXmlFile(string url, string filePath, string dirname)
+{
+    using (var client = new HttpClient())
+    {
+        S3BucketListModel result;
+        XmlSerializer serializer =
+            new XmlSerializer(typeof(S3BucketListModel), new XmlRootAttribute("ListBucketResult"));
+        Directory.CreateDirectory(dirname);
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            result = (S3BucketListModel)serializer.Deserialize(reader);
+        }
+        int totalCount = result.Contents.Count();
+        int count = 0;
+        foreach (var item in result.Contents)
+        {
+            var key = item.Key.Replace('/','-');
+            var filename = Path.Combine(dirname, key);
+            Console.WriteLine($"Downloading {++count} of {totalCount}: {item.Key}");
+            var endpointURL = new Uri($"{url}{item.Key}");
+            await client.DownloadFileTaskAsync(endpointURL, filename);
+        }
+    }
+}
+
+//Usage
+//ExtendDatasetWithWeatherData(lucaspointsSwedish, "Extended", "Lucas2018PointsWithWeatherDataSweden");
 //Extend a dataset with weather data
 static void ExtendDatasetWithWeatherData(IEnumerable<LUCAS2018Point> lucasPoints,string dirname, string filename)
 {   
@@ -65,9 +128,8 @@ static void ExtendDatasetWithWeatherData(IEnumerable<LUCAS2018Point> lucasPoints
     
 }
 
-
+//Usage
 //MergeJsonFiles("Day0Weather","MergedWeatherDataSweden");
-
 //Get all json files in the directory and merge them to one json file and save to disk
 static void MergeJsonFiles(string dirpath, string filename)
 {
@@ -83,6 +145,7 @@ static void MergeJsonFiles(string dirpath, string filename)
     
 }
 
+//Usage
 //await GetWeatherDataforLucasPoints(lucaspointsSwedish, 0);
 //Gets weather data for all LUCAS points with a day offset to the survey date
 static async Task GetWeatherDataforLucasPoints(IEnumerable<LUCAS2018Point> lucaspoints, int dayOffset=0)
