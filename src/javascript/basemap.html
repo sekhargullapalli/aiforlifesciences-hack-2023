@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>BaseMap</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.28/"></script>
+    <script type='text/javascript' src='config.js'></script>
+    <script type="module">
+        import { calculateAverage, lucasdata } from "./lucasdata.js";
+        var avgLong = calculateAverage("TH_LONG");
+        var avgLat = calculateAverage("TH_LAT");
+        console.log(lucasdata.length);
+
+        require(
+            [
+                "esri/config",
+                "esri/Map",
+                "esri/views/MapView",
+                "esri/Graphic",
+                "esri/layers/GraphicsLayer"
+            ], function (esriConfig, Map, MapView, Graphic, GraphicsLayer) {
+
+                esriConfig.apiKey = config.ARCGIS_API_KEY;
+
+                const map = new Map({
+                    basemap: "arcgis/topographic"
+                });
+
+                const view = new MapView({
+                    map: map,
+                    center: [avgLong, avgLat],
+                    zoom: 4,
+                    container: "viewDiv"
+                });
+
+                const graphicsLayer = new GraphicsLayer();
+                map.add(graphicsLayer);
+
+                const simpleMarkerSymbol = {
+                    type: "simple-marker",
+                    color: [226, 119, 40],  
+                    outline: {
+                        color: [0, 0, 0], 
+                        width: 0.2
+                    },
+                    size: 8
+                };      
+
+
+                lucasdata.forEach(function (item, index) {
+                    const point = {
+                        type: "point",
+                        longitude: item.TH_LONG,
+                        latitude: item.TH_LAT
+                    };
+                    const pointGraphic = new Graphic({
+                        geometry: point,
+                        symbol: simpleMarkerSymbol
+                    });
+                    graphicsLayer.add(pointGraphic);
+                });
+
+            });
+    </script>
+
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
