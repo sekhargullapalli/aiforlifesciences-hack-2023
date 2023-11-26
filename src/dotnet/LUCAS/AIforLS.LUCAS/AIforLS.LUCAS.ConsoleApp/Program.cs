@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using System;
+using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -22,9 +23,49 @@ Console.WriteLine($"Total points {lucasPoints!.Count()}");
 Console.WriteLine($"Swedish points {lucaspointsSwedish.Count()}");
 
 
-string burl = @"https://ai-for-life-sciences-1.s3.amazonaws.com/";
-string source = "Eukaryote";
-GetAllFilesFromS3(burl, source);
+
+//Usage
+string directoryPath = @"Eukaryote";
+DirectoryInfo directorySelected = new DirectoryInfo(directoryPath);
+var files = directorySelected.GetFiles("*.gz");
+int count = 0;
+foreach (FileInfo fileToDecompress in files)
+{
+    Console.WriteLine($"Decompressing {++count} of {files.Length}");
+    Decompress(fileToDecompress, "Decompressed");
+}
+
+
+
+
+static void Decompress(FileInfo fileToDecompress, string targetFolder)
+{
+    using (FileStream originalFileStream = fileToDecompress.OpenRead())
+    {
+        string currentFileName = fileToDecompress.FullName;
+        string newFileName = currentFileName.Remove(currentFileName.Length - fileToDecompress.Extension.Length);
+        Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(newFileName), targetFolder));        
+        newFileName = Path.Combine(Path.GetDirectoryName(newFileName),targetFolder, Path.GetFileName(newFileName));
+
+        using (FileStream decompressedFileStream = File.Create(newFileName))
+        {
+            using (GZipStream decompressionStream = new GZipStream(originalFileStream, CompressionMode.Decompress))
+            {
+                decompressionStream.CopyTo(decompressedFileStream);
+                Console.WriteLine("Decompressed: {0}", fileToDecompress.Name);
+            }
+        }
+    }
+}
+
+
+//usage
+//string burl = @"https://ai-for-life-sciences-1.s3.amazonaws.com/";
+//string source = "Eukaryote";
+//burl = @"https://ai-for-life-sciences-2.s3.amazonaws.com/";
+//string source2 = "Prokaryote";
+//await GetAllFilesFromS3(burl, source);
+//await GetAllFilesFromS3(burl, source2);
 static async Task GetAllFilesFromS3(string url, string source)
 {
     string[] allfiles = File.ReadAllLines($"{source}.txt");
