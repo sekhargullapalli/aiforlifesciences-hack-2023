@@ -22,7 +22,7 @@ For python 3 notebooks, a single virtual environment is used and analysis spread
 
 (.NET 8.0)[https://dotnet.microsoft.com/en-us/download/dotnet/8.0] used for data cleanup, api integrations and some application development. Requires installation of SDK for development. 
 
-Vanilla JavaScript, is used for user interace, since some of the renderers for ArcGis are not well documented for WPF applications. Some screenshots for the initial javascript application
+Vanilla JavaScript, is used for user interface, since some of the renderers for ArcGis are not well documented for .net WPF applications. Some screenshots for the initial javascript application
 
 
 
