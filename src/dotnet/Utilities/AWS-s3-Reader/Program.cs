@@ -9,8 +9,14 @@ class Program
     {
         var unsigned = new AnonymousAWSCredentials();
         var client = new AmazonS3Client(unsigned, Amazon.RegionEndpoint.USEast1);
-        var bucketName = "ai-for-life-sciences-2";
+        var bucketName = "ai-for-life-sciences-1";
+
         var listRequest = new ListObjectsRequest
+        {
+            BucketName = bucketName,
+            Delimiter = "/",
+        };
+        var sublistRequest = new ListObjectsRequest
         {
             BucketName = bucketName,
             Delimiter = "/",
@@ -18,13 +24,14 @@ class Program
         ListObjectsResponse listResponse;
         int count = 0;
         using TextWriter textWriter = new StreamWriter($"{bucketName}-contents.txt");
+
         do
         {
             listResponse = await client.ListObjectsAsync(listRequest);
             foreach (var obj in listResponse.CommonPrefixes)
-            {                
-                listRequest.Prefix = obj;
-                var sublistResponse = await client.ListObjectsAsync(listRequest);
+            {
+                sublistRequest.Prefix = obj;
+                var sublistResponse = await client.ListObjectsAsync(sublistRequest);
                 foreach (var subobj in sublistResponse.S3Objects)
                 {
                     textWriter.WriteLine(subobj.Key);
