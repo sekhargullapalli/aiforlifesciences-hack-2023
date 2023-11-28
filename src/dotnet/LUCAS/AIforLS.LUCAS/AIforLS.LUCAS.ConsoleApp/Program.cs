@@ -17,23 +17,23 @@ using System.Xml.Serialization;
 using VSG.OWMClient;
 using VSG.OWMClient.Models;
 
-var lucasPoints = LUCASUtilities.GetLUCAS2018Data();
-var lucaspointsSwedish = lucasPoints!.Where(p => p.NUTS_0 == "SE");
-Console.WriteLine($"Total points {lucasPoints!.Count()}");
-Console.WriteLine($"Swedish points {lucaspointsSwedish.Count()}");
+// var lucasPoints = LUCASUtilities.GetLUCAS2018Data();
+// var lucaspointsSwedish = lucasPoints!.Where(p => p.NUTS_0 == "SE");
+// Console.WriteLine($"Total points {lucasPoints!.Count()}");
+// Console.WriteLine($"Swedish points {lucaspointsSwedish.Count()}");
 
 
 
 //Usage
-string directoryPath = @"Eukaryote";
-DirectoryInfo directorySelected = new DirectoryInfo(directoryPath);
-var files = directorySelected.GetFiles("*.gz");
-int count = 0;
-foreach (FileInfo fileToDecompress in files)
-{
-    Console.WriteLine($"Decompressing {++count} of {files.Length}");
-    Decompress(fileToDecompress, "Decompressed");
-}
+// string directoryPath = @"Eukaryote";
+// DirectoryInfo directorySelected = new DirectoryInfo(directoryPath);
+// var files = directorySelected.GetFiles("*.gz");
+// int count = 0;
+// foreach (FileInfo fileToDecompress in files)
+// {
+//     Console.WriteLine($"Decompressing {++count} of {files.Length}");
+//     Decompress(fileToDecompress, "Decompressed");
+// }
 
 
 
@@ -60,12 +60,12 @@ static void Decompress(FileInfo fileToDecompress, string targetFolder)
 
 
 //usage
-//string burl = @"https://ai-for-life-sciences-1.s3.amazonaws.com/";
-//string source = "Eukaryote";
-//burl = @"https://ai-for-life-sciences-2.s3.amazonaws.com/";
-//string source2 = "Prokaryote";
+string burl = @"https://ai-for-life-sciences-1.s3.amazonaws.com/";
+string source = "Eukaryote";
+burl = @"https://ai-for-life-sciences-2.s3.amazonaws.com/";
+string source2 = "Prokaryotev2";
 //await GetAllFilesFromS3(burl, source);
-//await GetAllFilesFromS3(burl, source2);
+await GetAllFilesFromS3(burl, source2);
 static async Task GetAllFilesFromS3(string url, string source)
 {
     string[] allfiles = File.ReadAllLines($"{source}.txt");
