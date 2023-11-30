@@ -61,11 +61,11 @@ static void Decompress(FileInfo fileToDecompress, string targetFolder)
 
 //usage
 string burl = @"https://ai-for-life-sciences-1.s3.amazonaws.com/";
-string source = "Eukaryote";
-burl = @"https://ai-for-life-sciences-2.s3.amazonaws.com/";
-string source2 = "Prokaryotev2";
-//await GetAllFilesFromS3(burl, source);
-await GetAllFilesFromS3(burl, source2);
+string source = "Eukaryotev2";
+//burl = @"https://ai-for-life-sciences-2.s3.amazonaws.com/";
+//string source2 = "Prokaryotev2";
+await GetAllFilesFromS3(burl, source);
+//await GetAllFilesFromS3(burl, source2);
 static async Task GetAllFilesFromS3(string url, string source)
 {
     string[] allfiles = File.ReadAllLines($"{source}.txt");
