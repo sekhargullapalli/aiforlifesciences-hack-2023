@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - './src/dotnet/AI4LS.APP/**'
   workflow_dispatch:
 
 jobs:
@@ -21,7 +23,9 @@ jobs:
         with:
           dotnet-version: '6.0.x'
           include-prerelease: true
-
+      - name: set working directory
+        working-directory: ./src/dotnet/AI4LS.APP
+      
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
