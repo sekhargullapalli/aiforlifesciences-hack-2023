@@ -9,6 +9,7 @@ on:
       - main
     paths:
       - 'src/dotnet/AI4LS.APP/**'
+      - 'src/dotnet/LUCAS/AIforLS.LUCAS/AIforLS.LUCAS/**'
   workflow_dispatch:
 
 jobs:
