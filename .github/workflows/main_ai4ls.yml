@@ -22,15 +22,14 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
-          include-prerelease: true
-      
-      - name: set working directory
-        run: cd src/dotnet/AI4LS.APP
+          include-prerelease: true      
       
       - name: Build with dotnet
+        working-directory: src/dotnet/AI4LS.APP
         run: dotnet build --configuration Release
 
       - name: dotnet publish
+        working-directory: src/dotnet/AI4LS.APP
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
