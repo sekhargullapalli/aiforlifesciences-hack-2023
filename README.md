@@ -1,5 +1,10 @@
 <img src="https://github.com/sekhargullapalli/aiforlifesciences-hack-2023/actions/workflows/main_ai4ls.yml/badge.svg" alt="AI4LS Deployment">
 
+#### Link to Solution Deployment
+[<img src="./images/App-Services.svg" width=50>](https://ai4ls.azurewebsites.net)
+<br>
+<br>
+
 # AI for LifeSciences Hackathon 2023
 [Notion Site](https://wax-butterfly-46f.notion.site/AI4LS-1-Info-for-Participants-b8dd7d8e2c9e4d94a111086043d1bc9d)
 ## November 15 - December 20
