@@ -1,4 +1,5 @@
-﻿using AIforLS.LUCAS;
+﻿
+using AI4LS.APP.Models;
 
 namespace AI4LS.APP.Services
 {

@@ -1,6 +1,5 @@
 ﻿using AI4LS.APP.Models;
 
-using AIforLS.LUCAS;
 
 using System.Text.Json;
 

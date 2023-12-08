@@ -8,8 +8,7 @@ on:
     branches:
       - main
     paths:
-      - 'src/dotnet/AI4LS.APP/**'
-      - 'src/dotnet/LUCAS/AIforLS.LUCAS/AIforLS.LUCAS/**'
+      - 'src/dotnet/AI4LS.APP/**'      
   workflow_dispatch:
 
 jobs:
