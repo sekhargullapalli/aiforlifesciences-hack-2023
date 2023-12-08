@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<PropertyGroup>
+		<UseRazorSourceGenerator>false</UseRazorSourceGenerator>
+		<UserSecretsId>30fb212e-5543-4256-978d-8bda662d2ded</UserSecretsId>
+	</PropertyGroup>
+	<ItemGroup>
+	  <PackageReference Include="Syncfusion.Blazor" Version="23.2.6" />
+	  <PackageReference Include="Syncfusion.Blazor.Themes" Version="23.2.6" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\LUCAS\AIforLS.LUCAS\AIforLS.LUCAS\AIforLS.LUCAS.csproj" />	  
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Update="CountryCodes.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="LUCAS-SOIL-all-2018.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="wwwroot\images\team\" />
+	</ItemGroup>	
+</Project>

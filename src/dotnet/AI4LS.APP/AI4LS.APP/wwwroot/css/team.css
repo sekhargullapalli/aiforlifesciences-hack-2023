@@ -1,0 +1,99 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+:root {
+    --main-bg: white;
+    --nav-bg: #012E40;
+    --high-contrast-col1: #F5AD45;
+    --txtcol1: #025959
+}
+.teamheader {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2em;
+    margin-top: 0px;
+    color: var(--txtcol1);
+    font-weight: bold;
+}
+
+.teamsubheader {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    margin-top: 5px;
+    color: darkgrey;
+    font-weight: bold;
+}
+
+.teamrow {
+    margin-top: 50px;
+    max-width:800px;
+}
+
+blockquote {
+    margin: 20px 0;
+    padding-left: 1.5rem;
+    border-left: 5px solid var(--txtcol1) !important;
+}
+
+.teamquote {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    margin-top: 20px;
+    color: darkgray;
+    font-weight: bold;
+}
+
+.localboldtxt {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: var(--txtcol1);
+}
+.teamitem{
+    margin-top: 20px;    
+}
+.teammemberimg {
+    width: 250px;
+    max-height: 250px;
+    margin-left: 12.5% !important;
+}
+
+.teammembername {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    margin-top: 20px;
+    color: var(--txtcol1);
+    font-weight: bold;
+}
+
+.teammemberrole {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    margin-top: 5px;
+    color: darkgrey;
+    font-weight: bold;
+}
+
+.teamsocial {
+    margin-top: 10px;
+    font-size: 2em;
+}
+.teamplaceholder {
+    min-height:150px;
+
+}
+    .teamsocial * {
+        color: darkgray !important;
+        margin-right: 10px;
+    }
+
+.teammemberdesc {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    margin-top: 10px;
+    color: var(--txtcol1);
+    font-weight: bold;
+}
+
+/*.center .materialboxed,
+.center-align .materialboxed {
+    margin: 0 auto;
+    position: relative !important;
+}*/

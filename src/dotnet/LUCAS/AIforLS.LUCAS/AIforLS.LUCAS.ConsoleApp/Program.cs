@@ -17,10 +17,16 @@ using System.Xml.Serialization;
 using VSG.OWMClient;
 using VSG.OWMClient.Models;
 
-// var lucasPoints = LUCASUtilities.GetLUCAS2018Data();
+var lucasPoints = LUCASUtilities.GetLUCAS2018Data();
 // var lucaspointsSwedish = lucasPoints!.Where(p => p.NUTS_0 == "SE");
 // Console.WriteLine($"Total points {lucasPoints!.Count()}");
 // Console.WriteLine($"Swedish points {lucaspointsSwedish.Count()}");
+
+var countries = lucasPoints!.Select(p => p.NUTS_0).Distinct();
+foreach (var country in countries)
+{
+    Console.WriteLine(country);
+}
 
 
 
@@ -58,16 +64,14 @@ static void Decompress(FileInfo fileToDecompress, string targetFolder)
     }
 }
 
-
 //usage
-string burl1 = @"https://ai-for-life-sciences-2.s3.amazonaws.com/";
-string source1 = "Prokaryotev2";
-await GetAllFilesFromS3(burl1, source1);
+//string burl1 = @"https://ai-for-life-sciences-2.s3.amazonaws.com/";
+//string source1 = "Prokaryotev2";
+//await GetAllFilesFromS3(burl1, source1);
 
-string burl2 = @"https://ai-for-life-sciences-1.s3.amazonaws.com/";
-string source2 = "Eukaryotev2";
-await GetAllFilesFromS3(burl2, source2);
-
+//string burl2 = @"https://ai-for-life-sciences-1.s3.amazonaws.com/";
+//string source2 = "Eukaryotev2";
+//await GetAllFilesFromS3(burl2, source2);
 
 static async Task GetAllFilesFromS3(string url, string source)
 {

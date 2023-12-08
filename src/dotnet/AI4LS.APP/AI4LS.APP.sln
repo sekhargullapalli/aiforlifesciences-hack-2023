@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AI4LS.APP", "AI4LS.APP\AI4LS.APP.csproj", "{C2E6D181-978A-4662-8688-A6F0509F3DD7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIforLS.LUCAS", "..\LUCAS\AIforLS.LUCAS\AIforLS.LUCAS\AIforLS.LUCAS.csproj", "{6FA37F44-91C7-46AE-B597-3B6C26E15F09}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2E6D181-978A-4662-8688-A6F0509F3DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2E6D181-978A-4662-8688-A6F0509F3DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2E6D181-978A-4662-8688-A6F0509F3DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2E6D181-978A-4662-8688-A6F0509F3DD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FA37F44-91C7-46AE-B597-3B6C26E15F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA37F44-91C7-46AE-B597-3B6C26E15F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA37F44-91C7-46AE-B597-3B6C26E15F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA37F44-91C7-46AE-B597-3B6C26E15F09}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77345264-240C-4EB4-9994-B6F872F2C7B6}
+	EndGlobalSection
+EndGlobal

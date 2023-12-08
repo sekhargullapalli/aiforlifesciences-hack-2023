@@ -1,0 +1,68 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>AI4LS.APP</PageTitle>
+
+@code {
+    [Inject]
+    public IJSRuntime? JsRuntime { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime!.InvokeVoidAsync("initModals");
+        }
+    }
+ }
+<header>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">AI4LS-2023</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a class="navitemtxt" href="/team"><i class="left fa-solid fa-people-group"></i>Team</a></li>
+                <li> <a class="navitemtxt" href="/lucas2018"><i class="left fa-solid fa-earth-europe"></i>LUCAS 2018</a></li>
+                <li><a class="navitemtxt" href="/asklucas"><i class="left fa-solid fa-comment"></i>ASK LUCAS</a></li>
+                <li><a class="navitemtxt" href="/soildpredict"><i class="left fa-solid fa-calculator"></i>PREDICT</a></li>
+                <li><a class="navitemtxt" href="/rawdata"><i class="left fa-solid fa-table-list"></i>RAW DATA</a></li>
+                <li><a class="navitemtxt" href="/team"><i class="left fa-solid fa-people-group"></i>Team</a></li>
+                <li><a class="navitemtxt" href="https://github.com/sekhargullapalli/aiforlifesciences-hack-2023"><i class="left fa-brands fa-github"></i>REPOSITORY</a></li>
+
+            </ul>
+        </div>
+    </nav>
+</header>
+<main>
+    <article class="maincontent">
+        @Body
+    </article>
+</main>
+<div class="mainfooter">
+    <a class="modaltrigtxt modal-trigger" href="#modalLicense">MIT License</a>
+    &copy; 2023. <a href="https://github.com/sekhargullapalli">Vijay</a>,&nbsp;<a href="https://alfaxad.github.io/">Alfaxad</a>&nbsp;&nbsp;<a style="color: #F5AD45;" href="mailto:sekhargullapalli@gmail.com"> Contact</a>
+</div>
+<div class="modal" id="modalLicense">
+    <div class="modal-content" id="modalLicense">
+        <h4>MIT License</h4>
+        <p>
+            Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+            The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+            THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+        </p>
+    </div>
+
+</div>
+
+
+@* <script type="module">
+
+    import * as Config from 'https://js.arcgis.com/4.28/@@arcgis/core/config.js';
+    import * as Map from 'https://js.arcgis.com/4.28/@@arcgis/core/Map.js';
+    import * as WebMap from 'https://js.arcgis.com/4.28/@@arcgis/core/WebMap.js';
+    import * as FeatureLayer from 'https://js.arcgis.com/4.28/@@arcgis/core/layers/FeatureLayer.js';
+    import * as MapView from 'https://js.arcgis.com/4.28/@@arcgis/core/views/MapView.js';
+    import * as Legend from 'https://js.arcgis.com/4.28/@@arcgis/core/widgets/Legend.js';
+    import * as  reactiveUtils from 'https://js.arcgis.com/4.28/@@arcgis/core/core/reactiveUtils.js';
+    import * as heatmapRendererCreator from 'https://js.arcgis.com/4.28/@@arcgis/core/smartMapping/renderers/heatmap.js';   
+
+
+</script>
+ *@

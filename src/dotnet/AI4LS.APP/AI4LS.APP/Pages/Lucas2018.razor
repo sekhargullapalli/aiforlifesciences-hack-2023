@@ -1,0 +1,135 @@
+﻿@page "/lucas2018"
+@using AI4LS.APP.Services;
+@using Syncfusion.Blazor.DropDowns;
+@implements IAsyncDisposable;
+@inject IConfiguration Configuration
+
+
+<PageTitle>LUCAS 2018</PageTitle>
+
+<div id="lucasLoader" class="preloader-wrapper big active container">
+    <div class="spinner-layer spinner-green-only">
+        <div class="circle-clipper left">
+            <div class="circle"></div>
+        </div>
+
+        <div class="gap-patch">
+            <div class="circle"></div>
+        </div>
+
+        <div class="circle-clipper right">
+            <div class="circle"></div>
+        </div>
+    </div>
+</div>
+
+<EditForm id="lucasOptionsRow" Model="@lucasModel">
+    <div class="row container lucasoptionsrow">
+        <div class="col s12 m6">
+            <label class="example-label">Select Country</label>
+
+            <select id="country" class="icons" @onchange="@((ChangeEventArgs e)=> CountryChanged(e))">
+                <option value="ALL" data-icon="images/flags/EU-32.png" class="left">All Countries</option>
+                @foreach (var country in lucasService!.GetLucasData().Select(x => x.NUTS_0).Distinct().OrderBy(x => x))
+                {
+                    var item = countriesService!.GetCountries().Where(x => x.code == country).FirstOrDefault();
+                    var imgname = country!.ToUpper().Trim();
+                    if (imgname == "UK") { imgname = "GB"; };
+                    if (imgname == "EL") { imgname = "GR"; };
+                    imgname = $"images/flags/{imgname}-32.png";
+                    <option value="@item!.code" data-icon="@imgname" class="left">@item.name</option>
+                }
+            </select>
+        </div>
+        <div class="col s12 m6">
+            <label class="example-label">Select PlotParameter</label>
+            <select id="plotparam" @onchange="@((ChangeEventArgs e)=> PlotParameterChanged(e))">
+
+                @foreach (var plotparam in PlotParams)
+                {
+                    <option value="@plotparam">@plotparam</option>
+                }
+            </select>
+        </div>
+    </div>
+</EditForm>
+
+<div id="plotsContainer" class="row plotscontainer">
+    <div class="col s12 m6" id="viewPointMapDiv">
+    </div>
+    <div class="col s12 m6" id="viewHeatMapDiv">
+    </div>
+</div>
+
+<div class="placeholder">
+</div>
+
+@code {
+    private IJSObjectReference? jsModule;
+    [Inject]
+    private CountriesService? countriesService { get; set; }
+    [Inject]
+    private LucasData2018Service? lucasService { get; set; }
+    [Inject]
+    public IJSRuntime? JsRuntime { get; set; }
+
+    LucasRenderModel lucasModel = new LucasRenderModel();
+    public class LucasRenderModel
+    {
+        public string? LucasCountry { get; set; } = "ALL";
+        public string? PlotParam { get; set; } = "pH_H2O";
+    }
+    string[] PlotParams = new string[] { "pH_H2O", "pH_CaCl2", "P", "N", "K", "EC", "OC", "CaCO3" };
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime!.InvokeVoidAsync("initSelect");
+            jsModule = await JsRuntime!.InvokeAsync<IJSObjectReference>(
+               "import", "./esri.js");
+            await RenderArgGisPlots();
+            StateHasChanged();
+        }
+    }
+    async Task RenderArgGisPlots()
+    {
+        await JsRuntime!.InvokeVoidAsync("freezeLucasPanels");
+        try
+        {
+            var alldata = lucasService!.GetLucasData();
+            var apikey = Configuration["ArcGIS_APIKey"];
+            var basemap = Configuration["ArcGIS_BaseMap"];
+            if (lucasModel.LucasCountry != "ALL")
+            {
+                alldata = alldata.Where(x => x.NUTS_0 == lucasModel.LucasCountry).ToList();
+            }
+            await jsModule!.InvokeVoidAsync("RenderPointMap", alldata, apikey);
+            await jsModule!.InvokeVoidAsync("RenderHeatMap", alldata, lucasModel.PlotParam, apikey, basemap);
+        }
+        catch { }
+        finally
+        {
+            await JsRuntime!.InvokeVoidAsync("unfreezeLucasPanels");
+        }
+    }
+    async Task CountryChanged(ChangeEventArgs e)
+    {
+        lucasModel.LucasCountry = e?.Value?.ToString() ?? "ALL";
+        await RenderArgGisPlots();
+    }
+    async Task PlotParameterChanged(ChangeEventArgs e)
+    {
+        lucasModel.PlotParam = e?.Value?.ToString() ?? "ALL";
+        await RenderArgGisPlots();
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (jsModule is not null)
+        {
+            await jsModule.DisposeAsync();
+        }
+    }
+}
