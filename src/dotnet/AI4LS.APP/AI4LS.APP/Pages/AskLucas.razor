@@ -1,106 +1,184 @@
 ﻿@page "/asklucas"
 @using System.Collections.ObjectModel;
+@using Azure.AI.OpenAI;
+@using Azure;
 @using Syncfusion.Blazor.Inputs;
 @using Syncfusion.Blazor.Lists
+@using System.Text.RegularExpressions;
+@inject IConfiguration Configuration
 
 <PageTitle>Ask Lucas</PageTitle>
 
-<div id="container">
-    <div id="sample">
-        <SfListView ID="list" DataSource="@DataSource" ShowHeader="true"  Height="420px"  HeaderTitle="Ask LUCAS!">
-            <ListViewFieldSettings TValue="ListDataModel" Id="Id" Text="Text"></ListViewFieldSettings>
-            <ListViewTemplates TValue="ListDataModel">
-                <Template>
-                    @{
-                        ListDataModel currentData = context as ListDataModel;
+<div class="chatheader center-align">Ask LUCAS!</div>
+<div class="chatsubheader center-align">Powered by OpenAI & Azure AI Search</div>
 
-                        <div class="flex item__container">
-                            <div class="flex flex__1 vertical__center flex__center @(currentData.Chat == "sender" ? "flex__order__2" : "")">
-                                @if (currentData.Avatar != "")
-                                {
-                                    <span class="e-avatar e-avatar-circle">@currentData.Avatar</span>
-                                }
-                                else
-                                {
-                                    <span class="@currentData.Pic e-avatar e-avatar-circle"></span>
-                                }
+<div id="chatcontainer" class="chatcontainer container">
+    <SfListView ID="chatList" DataSource="@DataSource" ShowHeader="false" Height="100%" HeaderTitle="Ask LUCAS!">
+        <ListViewFieldSettings TValue="ListDataModel" Id="Id" Text="Text"></ListViewFieldSettings>
+        <ListViewTemplates TValue="ListDataModel">
+            <Template>
+                @{
+                    ListDataModel currentData = context as ListDataModel;
+                    <div class="chatitem">
+                        <div class="row">
+                            <div class="col s1">
+                                <img class="chatimage right responsive-img circle center-align" src="@currentData.Pic">
                             </div>
-                            <div class="flex content__container flex__8 vertical padding @(currentData.Chat == "sender" ? "right__align" : "left__align")">
-                                <div class="bold">@currentData.Text</div>
-                                <div class="small__font">@currentData.Contact</div>
+                            <div class="col s11">
+                                <div class="chatid">@currentData.Id</div>
+                                <div class="chatmessage @currentData.ChatTextClass">@currentData.Chat</div>
                             </div>
                         </div>
-                    }
-                </Template>
-            </ListViewTemplates>
-        </SfListView>
-        <div class="flex">
-            <div class="flex__8 padding">
-                <SfTextBox Placeholder="Type your message"  @ref="@SfTextBox"></SfTextBox>
-            </div>
-            <div class="flex__1">
-                <button class="e-btn" @onclick="@OnSend">Send</button>
-            </div>
-        </div>
+                    </div>
+                }
+            </Template>
+        </ListViewTemplates>
+    </SfListView>
+    <div style="min-height:50px">
     </div>
 </div>
 
+<div class="questioncontainer container center-align">
+    <div class="row">
+        <div class="col s12 m10">
+            <SfTextBox Placeholder="ASK LUCAS" @ref="@SfTextBox" @bind-Value="@UserPrompt" @onkeyup="@OnKeyPress"></SfTextBox>
+        </div>
+        <div class="col s12 m2">
+            <button class="waves-effect-light btn-large askbutton center-align" @onclick="@OnSend">
+                <i class="material-icons left">send</i>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="chatplaceholder">
+</div>
 
 
 @code {
-
-    SfTextBox SfTextBox;
+    [Inject]
+    public IJSRuntime? JsRuntime { get; set; }
+    SfTextBox SfTextBox = new SfTextBox();
     ObservableCollection<ListDataModel> DataSource = new ObservableCollection<ListDataModel>();
 
-    void OnSend()
-    {
-        if (SfTextBox.Value != "")
-        {
-            DataSource.Add(new ListDataModel
-                {
-                    Text = "Hacker",
-                    Contact = SfTextBox.Value,
-                    Id = new Random().Next(300, 900).ToString(),
-                    Avatar = "",
-                    Pic = @"pichacker",
-                    Chat = "receiver"
-                });
-        }
+    string UserPrompt { get; set; } = "";    
 
+    async Task OnKeyPress(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            await OnSend();
+        }
     }
 
+    async Task OnSend()
+    {
+        if (UserPrompt.Trim() != "")
+        {
+            string apiBase = Configuration["OpenAIApiBase"];
+            string apiKey = Configuration["OpenAIApiKey"];
+            string deploymentId = Configuration["OpenAIDeploymentID"];
+
+            string searchEndpoint = Configuration["AzureAISearchEndpoint"];
+            string searchKey = Configuration["AzureAISearchKey"];
+            string searchIndexName = Configuration["AzureAISearchIndex"];
+
+              OpenAIClient client = new OpenAIClient(new Uri(apiBase), new AzureKeyCredential(apiKey!));
+            AzureCognitiveSearchChatExtensionConfiguration cognitiveSearchExtension = new AzureCognitiveSearchChatExtensionConfiguration()
+                {
+                    SearchEndpoint = new Uri(searchEndpoint),
+                    IndexName = searchIndexName,
+                    SearchKey = new AzureKeyCredential(searchKey)
+                };
+
+            ChatCompletionsOptions chatCompletionsOptions = new ChatCompletionsOptions();
+            chatCompletionsOptions.AzureExtensionsOptions = new AzureChatExtensionsOptions()
+                {
+                    Extensions = { cognitiveSearchExtension }
+                };          
+
+            DataSource.Add(new ListDataModel
+                {
+                    Id = "Hacker",
+                    Pic = @"./images/hacker.png",
+                    Chat = UserPrompt+" "
+                });
+            UserPrompt = "";
+            await JsRuntime!.InvokeVoidAsync("ScrolltoBottonListView", "chatcontainer");
+
+            foreach (var item in DataSource)
+            {
+                ChatRole role = item.Id == "Hacker" ? ChatRole.User : ChatRole.Assistant;
+                chatCompletionsOptions.Messages.Add(new ChatMessage(role, item.Chat));
+            }
+
+            // var response = await this.client.GetChatCompletionsAsync(deploymentId, chatCompletionsOptions);
+            // var message = response.Value.Choices[0].Message;
+
+            // var content = Regex.Replace(message.Content, @"\[.*?\]", "");
+
+            // DataSource.Add(new ListDataModel
+            //     {
+            //         Id = "LUCAS",
+            //         Pic = @"./images/ai.png",
+            //         Chat = content,
+            //         ChatTextClass= "blue-text"
+            //     });
+            // await JsRuntime!.InvokeVoidAsync("ScrolltoBottonListView", "chatcontainer");
+
+            var airesp = new ListDataModel
+                {
+                    Id = "LUCAS",
+                    Pic = @"./images/ai.png",
+                    Chat = "",
+                    ChatTextClass = "teal-text"
+                };
+            DataSource.Add(airesp);
+
+            var response = await client.GetChatCompletionsStreamingAsync(deploymentId, chatCompletionsOptions);
+            await Task.Delay(TimeSpan.FromMilliseconds(1000));
+            await foreach (var chatChoice in response.Value.GetChoicesStreaming())
+            {
+                if(chatChoice is not null)
+                {
+                    await foreach (var message in chatChoice.GetMessageStreaming())
+                    {
+                        if ((message is not null) && (message.Content is not null) && (message.Content != string.Empty))
+                        {
+                            var content = Regex.Replace(message.Content, @"\[.*?\]", "");
+                            airesp.Chat += content;
+                            await Task.Delay(TimeSpan.FromMilliseconds(50));
+                            StateHasChanged();
+                        }
+                    }
+                }     
+                await JsRuntime!.InvokeVoidAsync("ScrolltoBottonListView", "chatcontainer");
+            }            
+            await JsRuntime!.InvokeVoidAsync("ScrolltoBottonListView", "chatcontainer");
+
+        }
+        
+    }
     public class ListDataModel
     {
         public string Id
         {
             get;
             set;
-        }
+        } = "Hacker";
         public string Chat
         {
             get;
             set;
-        }
+        } = "";
         public string Pic
         {
             get;
             set;
-        }
-        public string Avatar
-        {
+        } = "./images/hacker.png";
+        public string ChatTextClass{
             get;
             set;
-        }
-        public string Text
-        {
-            get;
-            set;
-        }
-        public string Contact
-        {
-            get;
-            set;
-        }
+        } = "black-text";}
     }
 
 }

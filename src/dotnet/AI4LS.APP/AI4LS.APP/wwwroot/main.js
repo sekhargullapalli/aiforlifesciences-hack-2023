@@ -7,6 +7,14 @@ function initSelect() {
     var instances = M.FormSelect.init(elems, {});
 }
 
+//Ask lucas
+function ScrolltoBottonListView(id) {
+    var objDiv = document.getElementById(id);
+    objDiv.scrollTop = objDiv.scrollHeight;   
+
+} 
+
+
 
 //Lucas 2018
 function freezeLucasPanels() {

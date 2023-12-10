@@ -1,137 +1,71 @@
-﻿ #list {
-        box-shadow: 0 1px 4px #ddd;
-        border-bottom: 1px solid #ddd;
-    }
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
 
-    #sample {
-        height: 220px;
-        margin: 30px auto;
-        display: block;
-        max-width: 650px;
-        
-    }
+:root {
+    --main-bg: white;
+    --nav-bg: #012E40;
+    --high-contrast-col1: #F5AD45;
+    --txtcol1: #025959
+}
 
-    #list {
-        margin: 0 auto;
-        border: 1px solid #ccc;
-    }
+.chatheader {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8em;
+    margin-top: 20px;
+    color: var(--txtcol1);
+    font-weight: bold;
+}
 
-        #list .e-list-item {
-            height: auto;
-            cursor: pointer;
-            line-height: 22px;
-            padding: 8px;
-        }
+.chatsubheader {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    margin-top: 5px;
+    color: darkgrey;
+    font-weight: bold;
+}
 
-        #list.e-listview .e-list-header {
-            background-color: #0278d7;
-            color: white;
-        }
+.chatcontainer {
+    margin-top: 30px;
+    max-width: 600px;
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 
-        #list .e-list-item.e-active {
-            background-color: transparent;
-        }
+.chatimage {
+    width: 64px;
+    margin-right: 10px;
+}
 
-        #list .e-list-item.e-hover {
-            background-color: transparent;
-        }
+.chatid {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    color: var(--txtcol1);
+    font-weight: bold;
+}
 
-    .padding {
-        padding: 4px;
-    }
+.chatmessage {
+    font-size:1.2em !important;
+}
 
-    .right__align {
-        text-align: right;
-        margin-right: 8px;
-        padding-right: 8px;
-    }
+.questioncontainer {
+    position: fixed;
+    text-align: center;
+    bottom: 100px;
+    width: 100%;
+    min-height: 50px;
+    color: #F5AD45;
 
-    .left__align {
-        margin-left: 8px;
-        padding-left: 8px;
-    }
+}
 
-    .content__container {
-        background-color: aliceblue;
-    }
+@media (min-width:641px) {
+    .questioncontainer {
+        transform: translate(25%, 0%);
+    }    
+}
 
-    .flex {
-        display: flex;
-    }
-
-    .flex__center {
-        justify-content: center;
-    }
-
-    .vertical__center {
-        align-items: center;
-    }
-
-    .vertical {
-        flex-direction: column;
-    }
-
-    .flex__order__1 {
-        order: 1;
-    }
-
-    .flex__order__2 {
-        order: 2;
-    }
-
-    .flex__1 {
-        flex: 1;
-    }
-
-    .flex__2 {
-        flex: 2;
-    }
-
-    .flex__3 {
-        flex: 3;
-    }
-
-    .flex__5 {
-        flex: 5;
-    }
-
-    .flex__8 {
-        flex: 8;
-    }
-
-    .bold {
-        font-weight: 500;
-    }
-
-    .margin {
-        margin: 10px;
-        width: 350px;
-    }
-
-    .small__font {
-        font-size: 13px;
-        margin: 2px 0;
-    }
-
-    .pichacker {
-        background-image: url(./hacker.png); }
-
-    .pic01 {
-        background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/1.png");
-    }
-
-    .pic02 {
-        background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/3.png");
-    }
-
-    .pic03 {
-        background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/5.png");
-    }
-     
-    
-
-    .pic04 {
-        background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/2.png");
-
-
-    }
+.chatplaceholder {
+    min-height: 50px;
+}
