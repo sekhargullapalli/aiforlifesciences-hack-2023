@@ -1,7 +1,9 @@
 <img src="https://github.com/sekhargullapalli/aiforlifesciences-hack-2023/actions/workflows/main_ai4ls.yml/badge.svg" alt="AI4LS Deployment">
 
-#### Link to Solution Deployment
-[<img src="./images/App-Services.svg" width=50>](https://ai4ls.azurewebsites.net)
+
+#### Final Submitted Solution (Web App)
+
+[<img src="./images/ai4ls.png" width=125>](https://ai4ls.azurewebsites.net)
 <br>
 <br>
 
