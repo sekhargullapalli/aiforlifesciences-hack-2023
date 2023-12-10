@@ -86,6 +86,7 @@
     {
         if (firstRender)
         {
+            await JsRuntime!.InvokeVoidAsync("initSideNav");
             await JsRuntime!.InvokeVoidAsync("initSelect");
             jsModule = await JsRuntime!.InvokeAsync<IJSObjectReference>(
                "import", "./esri.js");

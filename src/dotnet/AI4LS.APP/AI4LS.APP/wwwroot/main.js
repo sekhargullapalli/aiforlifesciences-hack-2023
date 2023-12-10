@@ -6,6 +6,11 @@ function initSelect() {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, {});
 }
+function initSideNav() {
+var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, {});
+}
+
 
 //Ask lucas
 function ScrolltoBottonListView(id) {

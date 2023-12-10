@@ -60,8 +60,15 @@
     SfTextBox SfTextBox = new SfTextBox();
     ObservableCollection<ListDataModel> DataSource = new ObservableCollection<ListDataModel>();
 
-    string UserPrompt { get; set; } = "";    
+    string UserPrompt { get; set; } = "";
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime!.InvokeVoidAsync("initSideNav");
+        }
+    }
     async Task OnKeyPress(KeyboardEventArgs args)
     {
         if (args.Key == "Enter")
@@ -82,7 +89,7 @@
             string searchKey = Configuration["AzureAISearchKey"];
             string searchIndexName = Configuration["AzureAISearchIndex"];
 
-              OpenAIClient client = new OpenAIClient(new Uri(apiBase), new AzureKeyCredential(apiKey!));
+            OpenAIClient client = new OpenAIClient(new Uri(apiBase), new AzureKeyCredential(apiKey!));
             AzureCognitiveSearchChatExtensionConfiguration cognitiveSearchExtension = new AzureCognitiveSearchChatExtensionConfiguration()
                 {
                     SearchEndpoint = new Uri(searchEndpoint),
@@ -94,13 +101,13 @@
             chatCompletionsOptions.AzureExtensionsOptions = new AzureChatExtensionsOptions()
                 {
                     Extensions = { cognitiveSearchExtension }
-                };          
+                };
 
             DataSource.Add(new ListDataModel
                 {
                     Id = "Hacker",
                     Pic = @"./images/hacker.png",
-                    Chat = UserPrompt+" "
+                    Chat = UserPrompt + " "
                 });
             UserPrompt = "";
             await JsRuntime!.InvokeVoidAsync("ScrolltoBottonListView", "chatcontainer");
@@ -138,7 +145,7 @@
             await Task.Delay(TimeSpan.FromMilliseconds(1000));
             await foreach (var chatChoice in response.Value.GetChoicesStreaming())
             {
-                if(chatChoice is not null)
+                if (chatChoice is not null)
                 {
                     await foreach (var message in chatChoice.GetMessageStreaming())
                     {
@@ -150,13 +157,13 @@
                             StateHasChanged();
                         }
                     }
-                }     
+                }
                 await JsRuntime!.InvokeVoidAsync("ScrolltoBottonListView", "chatcontainer");
-            }            
+            }
             await JsRuntime!.InvokeVoidAsync("ScrolltoBottonListView", "chatcontainer");
 
         }
-        
+
     }
     public class ListDataModel
     {
@@ -175,10 +182,12 @@
             get;
             set;
         } = "./images/hacker.png";
-        public string ChatTextClass{
+        public string ChatTextClass
+        {
             get;
             set;
-        } = "black-text";}
+        } = "black-text";
     }
-
 }
+
+

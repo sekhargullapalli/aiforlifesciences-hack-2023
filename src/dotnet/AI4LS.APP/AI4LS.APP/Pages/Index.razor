@@ -42,5 +42,13 @@
 <div class="teamplaceholder"></div>
 
 @code {
-
+    [Inject]
+    public IJSRuntime? JsRuntime { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime!.InvokeVoidAsync("initSideNav");
+        }
+    }
 }
