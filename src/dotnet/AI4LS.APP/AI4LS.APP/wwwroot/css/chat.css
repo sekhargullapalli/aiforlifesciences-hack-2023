@@ -1,0 +1,137 @@
+﻿ #list {
+        box-shadow: 0 1px 4px #ddd;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #sample {
+        height: 220px;
+        margin: 30px auto;
+        display: block;
+        max-width: 650px;
+        
+    }
+
+    #list {
+        margin: 0 auto;
+        border: 1px solid #ccc;
+    }
+
+        #list .e-list-item {
+            height: auto;
+            cursor: pointer;
+            line-height: 22px;
+            padding: 8px;
+        }
+
+        #list.e-listview .e-list-header {
+            background-color: #0278d7;
+            color: white;
+        }
+
+        #list .e-list-item.e-active {
+            background-color: transparent;
+        }
+
+        #list .e-list-item.e-hover {
+            background-color: transparent;
+        }
+
+    .padding {
+        padding: 4px;
+    }
+
+    .right__align {
+        text-align: right;
+        margin-right: 8px;
+        padding-right: 8px;
+    }
+
+    .left__align {
+        margin-left: 8px;
+        padding-left: 8px;
+    }
+
+    .content__container {
+        background-color: aliceblue;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .flex__center {
+        justify-content: center;
+    }
+
+    .vertical__center {
+        align-items: center;
+    }
+
+    .vertical {
+        flex-direction: column;
+    }
+
+    .flex__order__1 {
+        order: 1;
+    }
+
+    .flex__order__2 {
+        order: 2;
+    }
+
+    .flex__1 {
+        flex: 1;
+    }
+
+    .flex__2 {
+        flex: 2;
+    }
+
+    .flex__3 {
+        flex: 3;
+    }
+
+    .flex__5 {
+        flex: 5;
+    }
+
+    .flex__8 {
+        flex: 8;
+    }
+
+    .bold {
+        font-weight: 500;
+    }
+
+    .margin {
+        margin: 10px;
+        width: 350px;
+    }
+
+    .small__font {
+        font-size: 13px;
+        margin: 2px 0;
+    }
+
+    .pichacker {
+        background-image: url(./hacker.png); }
+
+    .pic01 {
+        background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/1.png");
+    }
+
+    .pic02 {
+        background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/3.png");
+    }
+
+    .pic03 {
+        background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/5.png");
+    }
+     
+    
+
+    .pic04 {
+        background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/2.png");
+
+
+    }
