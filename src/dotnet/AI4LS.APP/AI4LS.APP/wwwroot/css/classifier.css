@@ -1,0 +1,49 @@
+﻿.classifierheader {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2em;
+    margin-top: 30px;
+    color: var(--txtcol1);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.classifiersubheader {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    margin-top: 5px;
+    color: darkgrey;
+    font-weight: bold;
+}
+
+.classifier {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.proplabel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.classifierinputs {
+    max-width: 50% !important;
+    margin-top: px;
+    margin-bottom: 5px;
+}
+
+/*
+#sfgrid1 .e-grid .e-gridheader .e-columnheader {
+    display: none !important;
+}*/
+
+.e-hide {
+    display: none !important;
+}

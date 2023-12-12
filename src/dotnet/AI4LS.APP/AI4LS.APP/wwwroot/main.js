@@ -11,6 +11,15 @@ var elems = document.querySelectorAll('.sidenav');
     var instances = M.Sidenav.init(elems, {});
 }
 
+function initPredictTabs() {
+    var elem = document.querySelectorAll('.tabs');
+    var instances = M.Tabs.init(elem[0], {});
+    var instance = M.Tabs.getInstance(elem[0]);
+
+    var e = document.getElementById("defaultTab");
+    console.log(e);
+    e.click();
+}
 
 //Ask lucas
 function ScrolltoBottonListView(id) {

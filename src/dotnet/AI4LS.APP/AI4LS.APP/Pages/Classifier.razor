@@ -1,0 +1,276 @@
+﻿@page "/classifier"
+@layout ClassifierLayout
+
+@using AI4LS.APP.Models;
+@using AI4LS.APP.Services;
+@using Syncfusion.Blazor.Grids
+
+<div class="classifierheader center-align">Land Converage and Usage</div>
+
+<div class="row">
+    <div class="col s12 m8">
+
+
+        <div class="classifierinputs container">
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="classifier proplabel">
+                        pH_CaCl2 (2.6 - 9.8)
+                    </div>
+                    <div class="classifiersubheader center-align">
+                        @Input.pH_CaCl2
+                    </div>
+                    <div class="container">
+                        <p class="range-field">
+                            <input @bind=Input.pH_CaCl2 class="proprange center-align" type="range" id="pH_CaCl2" min="2.6" max="9.8"
+                                   step="0.1" />
+                        </p>
+                    </div>
+                    <div class="classifier proplabel">
+                        pH_H20 (3.34 - 10.43)
+                    </div>
+                    <div class="classifiersubheader center-align">
+                        @Input.pH_H2O
+                    </div>
+                    <div class="container">
+                        <p class="range-field">
+                            <input @bind=Input.pH_H2O class="proprange center-align" type="range" id="pH_CaCl2" min="3.34" max="10.43"
+                                   step="0.1" />
+                        </p>
+                    </div>
+                    <div class="classifier proplabel">
+                        EC (0.24 - 1295.6)
+                    </div>
+                    <div class="classifiersubheader center-align">
+                        @Input.EC
+                    </div>
+                    <div class="container">
+                        <p class="range-field">
+                            <input @bind=Input.EC class="proprange center-align" type="range" id="EC" min="0.24" max="1295.6" step="0.1" />
+                        </p>
+                    </div>
+                    <div class="classifier proplabel">
+                        OC (2.1 - 723.9)
+                    </div>
+                    <div class="classifiersubheader center-align">
+                        @Input.OC
+                    </div>
+                    <div class="container">
+                        <p class="range-field">
+                            <input @bind=Input.OC class="proprange center-align" type="range" id="EC" min="2.1" max="723.9" step="0.1" />
+                        </p>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="classifier proplabel">
+                        CaCO3 (0.0 - 926.0)
+                    </div>
+                    <div class="classifiersubheader center-align">
+                        @Input.CaCO3
+                    </div>
+                    <div class="container">
+                        <p class="range-field">
+                            <input @bind=Input.CaCO3 class="proprange center-align" type="range" id="CaCO3" name="CaCO3" min="0.0" max="926.0"
+                                   step="0.1" />
+                        </p>
+                    </div>
+                    <div class="classifier proplabel">
+                        P (0.0 - 515.0)
+                    </div>
+                    <div class="classifiersubheader center-align">
+                        @Input.P
+                    </div>
+                    <div class="container">
+                        <p class="range-field">
+                            <input @bind=Input.P class="proprange center-align" type="range" id="P" min="0.0" max="515.0" step="0.1" />
+                        </p>
+                    </div>
+                    <div class="classifier proplabel">
+                        N (0.2 - 46.5)
+                    </div>
+                    <div class="classifiersubheader center-align">
+                        @Input.N
+                    </div>
+                    <div class="container">
+                        <p class="range-field">
+                            <input @bind=Input.N class="proprange center-align" type="range" id="N" min="0.2" max="46.5" step="0.1" />
+                        </p>
+                    </div>
+                    <div class="classifier proplabel">
+                        K (6.2 - 7578.0)
+                    </div>
+                    <div class="classifiersubheader center-align">
+                        @Input.K
+                    </div>
+                    <div class="container">
+                        <p class="range-field">
+                            <input @bind=Input.K class="proprange center-align" type="range" id="EC" min="6.2" max="7578.0" step="0.1" />
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <button class="waves-effect waves-light btn right" @onclick="@RunClassifier">Classify</button>
+                    </div>
+                    <div class="col s12 m6">
+                        <button class="waves-effect waves-light btn left" @onclick="@ClearResults">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="col s12 m4">
+
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="proplabel">
+                    Main Land Cover (LC0)
+                </div>
+                <SfGrid id="sfgrid1" DataSource="@LC0Items">
+
+                </SfGrid>
+            </div>
+            <div class="col s12 m12">
+                <div class="proplabel">
+                    Detailed Land Cover (LC1)
+                </div>
+                <SfGrid DataSource="@LC1Items">
+                </SfGrid>
+            </div>
+            <div class="col s12 m12">
+                <div class="proplabel">
+                    Detailed Land Use (LU1)
+                </div>
+                <SfGrid DataSource="@LU1Items">
+                </SfGrid>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+@code {
+
+    [Inject]
+    public IJSRuntime? JsRuntime { get; set; }
+
+    [Inject]
+    public ONNXService? ONNXService { get; set; }
+
+    List<ClassificationResult> LC0Items = new List<ClassificationResult>();
+    List<ClassificationResult> LC1Items = new List<ClassificationResult>();
+    List<ClassificationResult> LU1Items = new List<ClassificationResult>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime!.InvokeVoidAsync("initSideNav");        
+
+            // LC0Items.Add(new ClassificationResult { Probability = 0.9f, Label = "xc dpc  qwwdq " });
+            // LC0Items.Add(new ClassificationResult { Probability = 0.7f, Label = "edfds  asd qsdqw" });
+            // LC0Items.Add(new ClassificationResult { Probability = 0.2f, Label = "dsffwe ewc dcwedwq qw" });
+
+            // LC1Items.Add(new ClassificationResult { Probability = 0.9f, Label = "xc dpc  qwwdq " });
+            // LC1Items.Add(new ClassificationResult { Probability = 0.7f, Label = "edfds  asd qsdqw" });
+            // LC1Items.Add(new ClassificationResult { Probability = 0.2f, Label = "dsffwe ewc dcwedwq qw" });
+
+            // LU1Items.Add(new ClassificationResult { Probability = 0.9f, Label = "xc dpc  qwwdq " });
+            // LU1Items.Add(new ClassificationResult { Probability = 0.7f, Label = "edfds  asd qsdqw" });
+            // LU1Items.Add(new ClassificationResult { Probability = 0.2f, Label = "dsffwe ewc dcwedwq qw" });
+
+
+        }
+
+    }
+    void RunClassifier()
+    {
+        var prediction_lco = ONNXService!.PredictLCO(Input);
+        LC0Items = ProcessPredictions(prediction_lco, ONNXService!.LCMappings);
+        var lc = prediction_lco.label.GetValues()[0] as Int64?;
+
+        var input2 = OnnxInputv2.FromOnnxInput(Input);
+        input2.LC0_Desc = lc!.Value;
+
+
+        var prediction_lc1 = ONNXService!.PredictLC1(input2);
+        LC1Items = ProcessPredictions(prediction_lc1, ONNXService!.LC1Mappings);
+        
+        var prediction_lu1 = ONNXService!.PredictLU1(input2);
+        LU1Items = ProcessPredictions(prediction_lu1, ONNXService!.LUMappings);
+
+    }
+    List<ClassificationResult> ProcessPredictions(OnnxOutput prediction, Dictionary<int, string> Mappings)
+    {
+        var results = new List<ClassificationResult>();
+        var items = prediction.probabilities.GetValues();
+        Dictionary<string, float> probs = new Dictionary<string, float>();
+        for (int i = 0; i < items.Length; i++)
+        {
+            probs.Add(Mappings[i], items[i]);
+        }
+        var probsSorted = probs.OrderByDescending(key => key.Value);
+        foreach (var item in probsSorted.Take(5))
+        {
+            results.Add(new ClassificationResult
+                {
+                    Probability = (float)Math.Round(item.Value * 100, 2),
+                    Label = item.Key
+                }
+            );
+            Console.WriteLine($"{item.Value * 100:N2} % : {item.Key}");
+        }
+        return results;
+    }
+
+
+    void ClearResults()
+    {
+        Input = new OnnxInput
+            {
+
+                pH_CaCl2 = 4.6f,
+                pH_H2O = 5.2f,
+                EC = 63.2f,
+                OC = 494.7f,
+                CaCO3 = 12f,
+                P = 55.4f,
+                N = 22f,
+                K = 366.5f
+            };
+        LC0Items = new List<ClassificationResult>();
+        LC1Items = new List<ClassificationResult>();
+        LU1Items = new List<ClassificationResult>();
+        
+    }
+
+    public OnnxInput Input { get; set; } = new OnnxInput
+        {
+
+            pH_CaCl2 = 4.6f,
+            pH_H2O = 5.2f,
+            EC = 63.2f,
+            OC = 494.7f,
+            CaCO3 = 12f,
+            P = 55.4f,
+            N = 22f,
+            K = 366.5f
+        };
+}

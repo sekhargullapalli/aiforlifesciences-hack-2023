@@ -1,0 +1,31 @@
+﻿@page "/predict"
+<PageTitle>Predict</PageTitle>
+
+ <div class="row">
+        
+        <div class="col s12">
+            <ul class="tabs" id="tabs1">
+                <li id="tab1" class="tab col s3"><a id="defaultTab" class="active" target="predictframe" href='/classifier'>LC/LU Example</a></li>
+                <li class="tab col s3"><a target="predictframe" href="/lu1_lucas_2018_classifier.html">Classifier NB Example</a></li>
+                @* <li class="tab col s3 "><a target="predictframe" href="./asklucas">Regression Example</a></li>
+                <li class="tab col s3"><a target="predictframe" href="./team">Sequence Classifier</a></li> *@
+            </ul>
+        </div>
+
+        <iframe src="" frameborder="0" class="predictframe" id="predictframe" name="predictframe">
+        </iframe>
+
+    </div>
+
+@code {
+    [Inject]
+    public IJSRuntime? JsRuntime { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime!.InvokeVoidAsync("initSideNav");
+            await JsRuntime!.InvokeVoidAsync("initPredictTabs");
+        }
+    }
+}

@@ -15,10 +15,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<CountriesService>();
 builder.Services.AddSingleton<LucasData2018Service>();
+builder.Services.AddSingleton<ONNXService>();
 builder.Services.AddSyncfusionBlazor();
 
 var app = builder.Build();
-
+app.Services.GetService<ONNXService>();
 
 if (!app.Environment.IsDevelopment())
 {
