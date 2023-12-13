@@ -20,6 +20,10 @@ The **final solution** is a web application hosted on Azure App Service and is p
 
 # [Solution Notion Site / Report](https://clammy-newt-56c.notion.site/EcoSynth-Understanding-and-Enhancing-Soil-Health-and-Microbial-Biodiversity-Using-Artificial-Intel-c8b8b9d149fe4b33bce7fea23570a1e3)
 <br/>
+
+<img src="./images/important.png" width=50>
+
+**Please look in the /src folder for Notebooks, WebApp source, Utilities etc.,**
 <br/>
 
 # AI for LifeSciences Hackathon 2023
