@@ -4,8 +4,20 @@
 #### Final Submitted Solution (Web App)
 
 [<img src="./images/ai4ls.png" width=125>](https://ai4ls.azurewebsites.net)
-<br>
-<br>
+<br/>
+<br/>
+
+The **final solution** is a web application hosted on Azure App Service and is published using github actions. Please click the link above to access the web application. The following information is available in the web app.
+
+1. About Team
+2. Repository
+3. Final Report
+4. Some prediciton UI and notebook viewer
+5. OpenAI based bot
+6. Visualzation layer for LUCAS Data
+
+
+
 
 # AI for LifeSciences Hackathon 2023
 [Notion Site](https://wax-butterfly-46f.notion.site/AI4LS-1-Info-for-Participants-b8dd7d8e2c9e4d94a111086043d1bc9d)
@@ -31,12 +43,20 @@ For python 3 notebooks, a single virtual environment is used and analysis spread
 
 (.NET 8.0)[https://dotnet.microsoft.com/en-us/download/dotnet/8.0] used for data cleanup, api integrations and some application development. Requires installation of SDK for development. 
 
-Vanilla JavaScript, is used for user interface, since some of the renderers for ArcGis are not well documented for .net WPF applications. Some screenshots for the initial javascript application
-
-
+After testing WPF, Vanilla JavaScript and Blazor Server, Blazor Server is used to develop the interface due to its flexibility, JS interop and security.
 
 <img src="./images/basemap_js.png" alt="basemap" width="300"/><img src="./images/heatmap_js.png" alt="heatmap" height="377"/>
 
 
 
+## License
+ 
+The MIT License (MIT)
 
+Copyright (c) 2015 Chris Kibble
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
