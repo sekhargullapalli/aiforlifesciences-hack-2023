@@ -16,12 +16,14 @@ The **final solution** is a web application hosted on Azure App Service and is p
 5. OpenAI based bot
 6. Visualzation layer for LUCAS Data
 
+<br/>
 
-
+# [Solution Notion Site / Report](https://clammy-newt-56c.notion.site/EcoSynth-Understanding-and-Enhancing-Soil-Health-and-Microbial-Biodiversity-Using-Artificial-Intel-c8b8b9d149fe4b33bce7fea23570a1e3)
+<br/>
+<br/>
 
 # AI for LifeSciences Hackathon 2023
-[Notion Site](https://wax-butterfly-46f.notion.site/AI4LS-1-Info-for-Participants-b8dd7d8e2c9e4d94a111086043d1bc9d)
-## November 15 - December 20
+## November 15 - December 20, 2023
 
 ### Datasets
 The land usage data for years 2009, 2015 and 2018 is available in this repository.
