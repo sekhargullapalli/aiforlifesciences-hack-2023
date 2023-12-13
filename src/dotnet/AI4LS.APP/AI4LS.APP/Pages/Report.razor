@@ -1,0 +1,26 @@
+﻿@page "/report"
+<PageTitle>Report</PageTitle>
+
+
+
+
+
+<iframe src="/FinalReport.pdf" frameborder="0" class="predictframe" id="predictframe" name="predictframe">
+</iframe>
+
+
+@code {   
+
+
+    
+
+    [Inject]
+    public IJSRuntime? JsRuntime { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime!.InvokeVoidAsync("initSideNav");
+        }
+    }
+}

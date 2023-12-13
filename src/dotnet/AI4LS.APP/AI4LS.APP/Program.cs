@@ -16,6 +16,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<CountriesService>();
 builder.Services.AddSingleton<LucasData2018Service>();
 builder.Services.AddSingleton<ONNXService>();
+builder.Services.AddServerSideBlazor().AddHubOptions(o => { o.MaximumReceiveMessageSize = 102400000; });
+
 builder.Services.AddSyncfusionBlazor();
 
 var app = builder.Build();
