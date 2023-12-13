@@ -1,5 +1,7 @@
 ﻿using AI4LS.APP.Models;
 
+using Azure.Core;
+
 using Microsoft.ML;
 using Microsoft.ML.Data;
 
@@ -28,16 +30,23 @@ public class ONNXService
 
     public ONNXService()
     {
-        if (!File.Exists($"./{ONNX_MODEL_PATH_LCO}"))
-            System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LCO_COMPRESSED, ".");
-        if (!File.Exists($"./{ONNX_MODEL_PATH_LC1}"))
-            System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LC1_COMPRESSED, ".");
-        if (!File.Exists($"./{ONNX_MODEL_PATH_LU1}"))
-            System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LU1_COMPRESSED, ".");
+        var folder = Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
+        var filePath_lc0 = Path.Combine(folder, ONNX_MODEL_PATH_LCO);
+        var filePath_lc1 = Path.Combine(folder, ONNX_MODEL_PATH_LC1);
+        var filePath_lu1 = Path.Combine(folder, ONNX_MODEL_PATH_LU1);
 
-        onnxPredictionPipeline_LCO = GetPredictionPipeline<OnnxInput>(mlContext, ONNX_MODEL_PATH_LCO, inputColumns);
-        onnxPredictionPipeline_LC1 = GetPredictionPipeline<OnnxInputv2>(mlContext, ONNX_MODEL_PATH_LC1, inputColumnsv2);
-        onnxPredictionPipeline_LU1 = GetPredictionPipeline<OnnxInputv2>(mlContext, ONNX_MODEL_PATH_LU1, inputColumnsv2);
+
+
+        if (!File.Exists(filePath_lc0))
+            System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LCO_COMPRESSED, folder);
+        if (!File.Exists(filePath_lc1))
+            System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LC1_COMPRESSED, folder);
+        if (!File.Exists($"./{filePath_lu1}"))
+            System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LU1_COMPRESSED, folder);
+
+        onnxPredictionPipeline_LCO = GetPredictionPipeline<OnnxInput>(mlContext, filePath_lc0, inputColumns);
+        onnxPredictionPipeline_LC1 = GetPredictionPipeline<OnnxInputv2>(mlContext, filePath_lc1, inputColumnsv2);
+        onnxPredictionPipeline_LU1 = GetPredictionPipeline<OnnxInputv2>(mlContext, filePath_lu1, inputColumnsv2);
 
         onnxPredictionEngine_LCO = mlContext.Model.CreatePredictionEngine<OnnxInput, OnnxOutput>(onnxPredictionPipeline_LCO);
         onnxPredictionEngine_LC1 = mlContext.Model.CreatePredictionEngine<OnnxInputv2, OnnxOutput>(onnxPredictionPipeline_LC1);
