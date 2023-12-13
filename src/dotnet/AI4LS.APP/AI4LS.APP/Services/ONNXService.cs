@@ -30,7 +30,8 @@ public class ONNXService
 
     public ONNXService()
     {
-        var folder = Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
+        //var folder = Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
+        var folder = Environment.GetEnvironmentVariable("TEMP");
         var filePath_lc0 = Path.Combine(folder, ONNX_MODEL_PATH_LCO);
         var filePath_lc1 = Path.Combine(folder, ONNX_MODEL_PATH_LC1);
         var filePath_lu1 = Path.Combine(folder, ONNX_MODEL_PATH_LU1);
@@ -41,7 +42,7 @@ public class ONNXService
             System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LCO_COMPRESSED, folder);
         if (!File.Exists(filePath_lc1))
             System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LC1_COMPRESSED, folder);
-        if (!File.Exists($"./{filePath_lu1}"))
+        if (!File.Exists(filePath_lu1))
             System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LU1_COMPRESSED, folder);
 
         onnxPredictionPipeline_LCO = GetPredictionPipeline<OnnxInput>(mlContext, filePath_lc0, inputColumns);
