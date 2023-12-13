@@ -18,15 +18,15 @@ using VSG.OWMClient;
 using VSG.OWMClient.Models;
 
 var lucasPoints = LUCASUtilities.GetLUCAS2018Data();
-// var lucaspointsSwedish = lucasPoints!.Where(p => p.NUTS_0 == "SE");
+var lucaspointsSwedish = lucasPoints!.Where(p => p.NUTS_0 == "SE");
 // Console.WriteLine($"Total points {lucasPoints!.Count()}");
 // Console.WriteLine($"Swedish points {lucaspointsSwedish.Count()}");
 
-var countries = lucasPoints!.Select(p => p.NUTS_0).Distinct();
-foreach (var country in countries)
-{
-    Console.WriteLine(country);
-}
+//var countries = lucasPoints!.Select(p => p.NUTS_0).Distinct();
+//foreach (var country in countries)
+//{
+//    Console.WriteLine(country);
+//}
 
 
 
@@ -129,7 +129,7 @@ static async Task ReadFromXmlFile(string url, string filePath, string dirname)
 }
 
 //Usage
-//ExtendDatasetWithWeatherData(lucaspointsSwedish, "Extended", "Lucas2018PointsWithWeatherDataSweden");
+ExtendDatasetWithWeatherData(lucaspointsSwedish, "Extended", "Lucas2018PointsWithWeatherDataSweden");
 //Extend a dataset with weather data
 static void ExtendDatasetWithWeatherData(IEnumerable<LUCAS2018Point> lucasPoints,string dirname, string filename)
 {   
@@ -151,6 +151,7 @@ static void ExtendDatasetWithWeatherData(IEnumerable<LUCAS2018Point> lucasPoints
                 }
             }
         }
+        if (!weatherdata.ContainsKey(pt.POINTID.ToString()))continue;
         DailyAggregation da = weatherdata![pt.POINTID.ToString()];
         if (da is not null)
         {

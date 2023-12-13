@@ -5,17 +5,19 @@
 }
 
 .tabs {
-    background-color: white;
+    /*background-color: white;*/
 }
 
 .tab a {
     color: teal !important;
-    background-color: white !important;
+    /*color: teal !important;
+    background-color: white !important;*/
     font-weight: bold !important;
     font-size: 1.2em !important;
 }
 
 .tabs .indicator {
     background-color: white !important;
+    visibility: hidden !important;
 }
 

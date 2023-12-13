@@ -7,13 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="LUCAS-SOIL-2018.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="LUCAS-SOIL-all-2018.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="MergedWeatherDataSweden.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
