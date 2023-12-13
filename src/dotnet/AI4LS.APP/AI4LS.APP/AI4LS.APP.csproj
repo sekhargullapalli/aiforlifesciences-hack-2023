@@ -34,7 +34,7 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="LC0_Desc_ONNX.onnx">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="LC0_Desc_ONNX.zip">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -43,7 +43,7 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="LU1_Desc_ONNX.onnx">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="LU1_Desc_ONNX.zip">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>

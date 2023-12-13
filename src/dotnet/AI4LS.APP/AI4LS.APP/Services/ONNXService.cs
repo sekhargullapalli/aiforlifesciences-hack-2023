@@ -10,47 +10,47 @@ namespace AI4LS.APP.Services;
 public class ONNXService
 {
     string ONNX_MODEL_PATH_LCO = "LC0_Desc_ONNX.onnx";
-    string ONNX_MODEL_PATH_LC1 = "LC1_Desc_ONNX.onnx";
+    //string ONNX_MODEL_PATH_LC1 = "LC1_Desc_ONNX.onnx";
     string ONNX_MODEL_PATH_LU1 = "LU1_Desc_ONNX.onnx";
 
     string ONNX_MODEL_PATH_LCO_COMPRESSED = "LC0_Desc_ONNX.zip";
-    string ONNX_MODEL_PATH_LC1_COMPRESSED = "LC1_Desc_ONNX.zip";
+    //string ONNX_MODEL_PATH_LC1_COMPRESSED = "LC1_Desc_ONNX.zip";
     string ONNX_MODEL_PATH_LU1_COMPRESSED = "LU1_Desc_ONNX.zip";
 
     MLContext mlContext = new MLContext();
 
     ITransformer onnxPredictionPipeline_LCO;
-    ITransformer onnxPredictionPipeline_LC1;
+    //ITransformer onnxPredictionPipeline_LC1;
     ITransformer onnxPredictionPipeline_LU1;
 
     PredictionEngine<OnnxInput, OnnxOutput> onnxPredictionEngine_LCO;
-    PredictionEngine<OnnxInputv2, OnnxOutput> onnxPredictionEngine_LC1;
+    //PredictionEngine<OnnxInputv2, OnnxOutput> onnxPredictionEngine_LC1;
     PredictionEngine<OnnxInputv2, OnnxOutput> onnxPredictionEngine_LU1;
 
 
     public ONNXService()
     {
         //var folder = Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
-        var folder = Environment.GetEnvironmentVariable("TEMP");
-        var filePath_lc0 = Path.Combine(folder, ONNX_MODEL_PATH_LCO);
-        var filePath_lc1 = Path.Combine(folder, ONNX_MODEL_PATH_LC1);
-        var filePath_lu1 = Path.Combine(folder, ONNX_MODEL_PATH_LU1);
+        //var folder = Environment.GetEnvironmentVariable("TEMP");
+        //var filePath_lc0 = Path.Combine(folder, ONNX_MODEL_PATH_LCO);
+        //var filePath_lc1 = Path.Combine(folder, ONNX_MODEL_PATH_LC1);
+        //var filePath_lu1 = Path.Combine(folder, ONNX_MODEL_PATH_LU1);
 
 
 
-        if (!File.Exists(filePath_lc0))
-            System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LCO_COMPRESSED, folder);
-        if (!File.Exists(filePath_lc1))
-            System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LC1_COMPRESSED, folder);
-        if (!File.Exists(filePath_lu1))
-            System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LU1_COMPRESSED, folder);
+        //if (!File.Exists(filePath_lc0))
+        //    System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LCO_COMPRESSED, folder);
+        //if (!File.Exists(filePath_lc1))
+        //    System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LC1_COMPRESSED, folder);
+        //if (!File.Exists(filePath_lu1))
+        //    System.IO.Compression.ZipFile.ExtractToDirectory(ONNX_MODEL_PATH_LU1_COMPRESSED, folder);
 
-        onnxPredictionPipeline_LCO = GetPredictionPipeline<OnnxInput>(mlContext, filePath_lc0, inputColumns);
-        onnxPredictionPipeline_LC1 = GetPredictionPipeline<OnnxInputv2>(mlContext, filePath_lc1, inputColumnsv2);
-        onnxPredictionPipeline_LU1 = GetPredictionPipeline<OnnxInputv2>(mlContext, filePath_lu1, inputColumnsv2);
+        onnxPredictionPipeline_LCO = GetPredictionPipeline<OnnxInput>(mlContext, ONNX_MODEL_PATH_LCO, inputColumns);
+        //onnxPredictionPipeline_LC1 = GetPredictionPipeline<OnnxInputv2>(mlContext, ONNX_MODEL_PATH_LC1, inputColumnsv2);
+        onnxPredictionPipeline_LU1 = GetPredictionPipeline<OnnxInputv2>(mlContext, ONNX_MODEL_PATH_LU1, inputColumnsv2);
 
         onnxPredictionEngine_LCO = mlContext.Model.CreatePredictionEngine<OnnxInput, OnnxOutput>(onnxPredictionPipeline_LCO);
-        onnxPredictionEngine_LC1 = mlContext.Model.CreatePredictionEngine<OnnxInputv2, OnnxOutput>(onnxPredictionPipeline_LC1);
+        //onnxPredictionEngine_LC1 = mlContext.Model.CreatePredictionEngine<OnnxInputv2, OnnxOutput>(onnxPredictionPipeline_LC1);
         onnxPredictionEngine_LU1 = mlContext.Model.CreatePredictionEngine<OnnxInputv2, OnnxOutput>(onnxPredictionPipeline_LU1);
     }
 
@@ -58,10 +58,10 @@ public class ONNXService
     {
         return onnxPredictionEngine_LCO.Predict(input);
     }
-    public OnnxOutput PredictLC1(OnnxInputv2 input)
-    {
-        return onnxPredictionEngine_LC1.Predict(input);
-    }
+    //public OnnxOutput PredictLC1(OnnxInputv2 input)
+    //{
+    //    return onnxPredictionEngine_LC1.Predict(input);
+    //}
     public OnnxOutput PredictLU1(OnnxInputv2 input)
     {
         return onnxPredictionEngine_LU1.Predict(input);

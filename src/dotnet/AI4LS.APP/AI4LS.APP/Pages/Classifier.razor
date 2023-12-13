@@ -137,13 +137,13 @@
 
                 </SfGrid>
             </div>
-            <div class="col s12 m12">
+            @* <div class="col s12 m12">
                 <div class="proplabel">
                     Detailed Land Cover (LC1)
                 </div>
                 <SfGrid DataSource="@LC1Items">
                 </SfGrid>
-            </div>
+            </div> *@
             <div class="col s12 m12">
                 <div class="proplabel">
                     Detailed Land Use (LU1)
@@ -175,7 +175,7 @@
     public ONNXService? ONNXService { get; set; }
 
     List<ClassificationResult> LC0Items = new List<ClassificationResult>();
-    List<ClassificationResult> LC1Items = new List<ClassificationResult>();
+    //List<ClassificationResult> LC1Items = new List<ClassificationResult>();
     List<ClassificationResult> LU1Items = new List<ClassificationResult>();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -210,8 +210,8 @@
         input2.LC0_Desc = lc!.Value;
 
 
-        var prediction_lc1 = ONNXService!.PredictLC1(input2);
-        LC1Items = ProcessPredictions(prediction_lc1, ONNXService!.LC1Mappings);
+        // var prediction_lc1 = ONNXService!.PredictLC1(input2);
+        // LC1Items = ProcessPredictions(prediction_lc1, ONNXService!.LC1Mappings);
         
         var prediction_lu1 = ONNXService!.PredictLU1(input2);
         LU1Items = ProcessPredictions(prediction_lu1, ONNXService!.LUMappings);
@@ -256,7 +256,7 @@
                 K = 366.5f
             };
         LC0Items = new List<ClassificationResult>();
-        LC1Items = new List<ClassificationResult>();
+        //LC1Items = new List<ClassificationResult>();
         LU1Items = new List<ClassificationResult>();
         
     }
