@@ -2,9 +2,11 @@
 @using System.Collections.ObjectModel;
 @using Azure.AI.OpenAI;
 @using Azure;
+@using Markdig;
 @using Syncfusion.Blazor.Inputs;
 @using Syncfusion.Blazor.Lists
 @using System.Text.RegularExpressions;
+@using System.Web;
 @inject IConfiguration Configuration
 
 <PageTitle>Ask Lucas</PageTitle>
@@ -26,7 +28,7 @@
                             </div>
                             <div class="col s11">
                                 <div class="chatid">@currentData.Id</div>
-                                <div class="chatmessage @currentData.ChatTextClass">@currentData.Chat</div>
+                                <div class="chatmessage @currentData.ChatTextClass">@((MarkupString)currentData.Chat)</div>
                             </div>
                         </div>
                     </div>
@@ -140,6 +142,8 @@
                     ChatTextClass = "teal-text"
                 };
             DataSource.Add(airesp);
+            string chatContent = "";
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
 
             var response = await client.GetChatCompletionsStreamingAsync(deploymentId, chatCompletionsOptions);
             await Task.Delay(TimeSpan.FromMilliseconds(1000));
@@ -152,13 +156,20 @@
                         if ((message is not null) && (message.Content is not null) && (message.Content != string.Empty))
                         {
                             var content = Regex.Replace(message.Content, @"\[.*?\]", "");
-                            airesp.Chat += content;
+                            chatContent += content;
+                            airesp.Chat = Markdig.Markdown.ToHtml(chatContent, pipeline);
+                            //airesp.Chat += content;
+                            //airesp.Chat += HttpUtility.HtmlEncode(content);
                             await Task.Delay(TimeSpan.FromMilliseconds(50));
                             StateHasChanged();
                         }
                     }
+                    // airesp.Chat = Markdig.Markdown.ToHtml(airesp.Chat, pipeline);
+                    // StateHasChanged();
                 }
                 await JsRuntime!.InvokeVoidAsync("ScrolltoBottonListView", "chatcontainer");
+            //airesp.Chat = Markdig.Markdown.ToHtml(airesp.Chat);
+            //StateHasChanged();
             }
             await JsRuntime!.InvokeVoidAsync("ScrolltoBottonListView", "chatcontainer");
 
