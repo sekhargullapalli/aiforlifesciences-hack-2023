@@ -12,7 +12,15 @@ Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(builder.Configura
 
 
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+//builder.Services.AddServerSideBlazor();
+builder.Services.AddServerSideBlazor(options =>
+{
+    options.DetailedErrors = true;
+    options.DisconnectedCircuitMaxRetained = 100;
+    options.DisconnectedCircuitRetentionPeriod = TimeSpan.FromMinutes(3);
+    options.JSInteropDefaultCallTimeout = TimeSpan.FromMinutes(1);
+    options.MaxBufferedUnacknowledgedRenderBatches = 10;
+});
 builder.Services.AddSingleton<CountriesService>();
 builder.Services.AddSingleton<LucasData2018Service>();
 builder.Services.AddSingleton<ONNXService>();
