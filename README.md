@@ -26,8 +26,8 @@ The **final solution** is a web application hosted on Azure App Service and is p
 **Please look in the /src folder for Notebooks, WebApp source, Utilities etc.,**
 <br/>
 
-# AI for LifeSciences Hackathon 2023
-## November 15 - December 20, 2023
+# EcoSynth AI
+## January 21, 2024
 
 ### Datasets
 The land usage data for years 2009, 2015 and 2018 is available in this repository.
